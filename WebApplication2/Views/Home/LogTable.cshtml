@@ -1,0 +1,35 @@
+﻿@model IEnumerable<Metadata>
+
+<!-- Ensure jQuery is loaded -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Ensure Bootstrap is loaded -->
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<div class="card shadow mb-4">
+
+<div class="table-responsive">
+    <h1 class="h3 mb-2 text-gray-800">Log Table</h1>
+    <br />
+    <table class="table table-bordered" id="logTable" width="100%" cellspacing="0">
+        <thead>
+            <tr>
+                    <th>No.</th>
+                    <th>Activity</th>
+                <th>DateTime</th>
+                <th>UserEmail</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                      @*  <td>@item.DateTime.ToString("g")</td>
+                        <td>@item.UserEmail</td>*@
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,288 @@
+﻿@*View for Admin create drop-down options for division*@
+
+@model WebApplication2.Models.Division
+@{
+    ViewData["Title"] = "Add Division";
+    //Layout = "AdminLayout";
+}
+
+<!DOCTYPE html>
+<html>
+<body>
+
+    <!-- Begin Page Content -->
+    <div class="row">
+        <!-- Total Documents Uploaded Card -->
+        <div class="col-xl-3 col-md-6">
+            <div class="card bg-primary text-white mb-4">
+                <div class="card-body">
+                    <h3 id="totalUploads">@* @totalUploads *@</h3>
+                    <p>Uploads</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Existing Documents Card -->
+        <div class="col-xl-3 col-md-6">
+            <div class="card bg-warning text-white mb-4">
+                <div class="card-body">
+                    @*<h3 id="totalDocuments"> @totalDocuments </h3>*@
+                    <p>Documents</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Total Size Card (Placeholder, calculate and pass this value if needed) -->
+        <div class="col-xl-3 col-md-6">
+            <div class="card bg-danger text-white mb-4">
+                <div class="card-body">
+                    <p>Size</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- User Card -->
+        <div class="col-xl-3 col-md-6">
+            <div class="card bg-success text-white mb-4">
+                <div class="card-body">
+                    <p>User</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- </body> -->
+
+    <div class="card shadow mb-4 ">
+        <div class="card-body">
+            @*<div class="table-responsive">*@
+                <h1 class ="h3 mb-2 text-gray-800">Add New Division</h1>
+
+
+        <form id="createDivision" method="post" enctype="multipart/form-data">
+
+
+        <div class="form-horizontal">
+            <hr />
+            <div class="form-group">
+                <label class="control-label col-md-2">Division Name Option</label>
+                <div class="col-md-10">
+                                @Html.EditorFor(model => model.DivisionName, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter division name", @required = "required", @oninput = "(function(e){e.setCustomValidity(''); return !e.validity.valid && e.setCustomValidity(' ')})(this)",
+                                @oninvalid = "this.setCustomValidity('Please fill in division name.')" } })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <button type="submit" class="btn btn-primary">Add Option</button>
+                    <button type="reset" class="btn btn-primary">Reset Option</button>
+                </div>
+            </div>
+
+                    </div>
+                </form>
+
+                <!-- Create Department -->
+            @*<form id="createDepartment" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label class="control-label col-md-2">Department Name Option</label>
+
+                    <!-- Choose site name -->
+                    <div>
+                        @Html.DropDownListFor(m => m.SiteName, (SelectList)ViewBag.Options, "-- Select an option --", new { @class = "form-control", @id="siteName", @required="required", @oninput = "(function(e){e.setCustomValidity(''); return !e.validity.valid && e.setCustomValidity(' ')})(this)",
+                        @oninvalid = "this.setCustomValidity('Please select site name in the list.')"})
+                    </div>
+
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.DepartmentName, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter department name", @required = "required", @oninput = "(function(e){e.setCustomValidity(''); return !e.validity.valid && e.setCustomValidity(' ')})(this)",
+                        @oninvalid = "this.setCustomValidity('Please fill in department name.')" } })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <button type="submit" class="btn btn-primary">Add Option</button>
+                        <button type="reset" class="btn btn-primary">Reset Option</button>
+                    </div>
+                </div>
+                </form>*@
+
+
+    <div class="table-responsive">
+    <table class="table table-bordered">
+        <h3 style="font-weight: bold">Division Options List</h2>
+        <thead>
+        <th>No.</th>
+        <th>Division Name</th>
+        <th>Created Date</th>
+        <th>Created By</th>
+        <th>Action</th>
+        </thead>
+
+        <tbody>
+            @{
+                int counter = 1;
+                if (ViewBag.DivisionName != null)
+                {
+                    foreach (var divisionName in ViewBag.DivisionName)
+                    {
+                        <tr>
+                            <td>@counter</td>
+                            <td>@divisionName.DivisionName</td>
+
+                            <!-- Date and email field-->
+                                        <td>@divisionName.CreatedDate.ToString("yyyy-MM-dd / HH:mm:ss")</td>
+
+                                        <td>
+                                                @(divisionName.CreatedByEmail != null ? divisionName.CreatedByEmail : "No email provided")
+                                        </td>
+
+                            <td>
+
+                                            <a asp-controller="Admin" asp-action="EditDivision" asp-route-id="@divisionName.DivisionId" class="btn btn-primary">
+                                    Edit Division
+                                </a>
+
+                                <form class="delete-form" asp-action="DeleteDivision" method="post" style="display:inline;">
+                                                <input type="hidden" name="id" value="@divisionName.DivisionId" />
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                        counter++;
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="5">No options available</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+    </div>
+    </div>
+    </div>
+    <!-- </div> -->
+
+</body>
+
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+</a>
+
+
+<!-- Success message modal -->
+<div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="dialog" arial-modal="true">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="successModalLabel">Success</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <!--<span aria-hidden="true">&times;</span>-->
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                <i class="fas fa-check-circle fa-3x text-success"></i>
+                <p>Division deleted successfully!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Include Bootstrap CSS -->
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Include jQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!-- Include Bootstrap JS -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<!-- Include FontAwesome for success icon -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+
+
+<!--<script>
+     function updateFormat() {
+        let siteNameInput = document.getElementById('SiteName');
+     }
+
+     $(document).ready(function () {
+         $('#createSite').submit(function (event) {
+             event.preventDefault(); // Prevent the default form submission
+
+             // var formData = new FormData(this);
+            var formData = $(this).serialize();
+            var token = $('input[name="_RequestVerificationToken"]').val();
+
+             /*$.ajax({
+                 type: 'POST',
+                 url: '@Url.Action("CreateDivision", "Admin")', // Adjust the URL to your controller action
+                 data: formData,
+                 headers:{
+                     "RequestVerificationToken": token
+                 },
+                 //contentType: false,
+                 //processData: false,
+                 success: function (response) {
+                     if (response.success) {
+                         // Show the success modal
+                         $('#successModal').modal('show');
+                         // Redirect after a short delay
+                         setTimeout(function () {
+                             window.location.href = '@Url.Action("CreateDivision", "Admin")'; // Adjust the URL to your create division page
+                         }, 1500); // Adjust the delay as needed
+                     } else {
+                         alert('An error occurred: ' + response.error);
+                     }
+                 },
+                 error: function (xhr, status, error) {
+                     alert('An error occurred while adding project site: ' + error);
+                 }
+             });*/
+
+
+         });
+     });
+
+    
+
+ </script>-->
+
+<script>
+    $(document).ready(function () {
+        $('.delete-form').on('submit', function (event) {
+            event.preventDefault();
+
+            if (confirm('Are you sure you want to delete this division option?')) {
+                var form = $(this);
+                var documentRow = form.closest('tr');
+                $.ajax({
+                    type: form.attr('method'),
+                    url: form.attr('action'),
+                    data: form.serialize(),
+                    success: function (response) {
+                        if (response.success) {
+                            $('#successModal').modal('show');
+                            $('#successMessage').text(response.message);
+                            documentRow.remove();
+                            var totalDocuments = parseInt($('#totalDocuments').text());
+                            $('#totalDocuments').text(totalDocuments - 1);
+                        } else {
+                            alert('An error occured: ' + response.error);
+                        }
+                    },
+                    error: function () {
+                        alert('An error occurred while deleting the division option.');
+                    }
+                });
+            }
+        });
+
+    });
+</script>
+
+
+ 
+
+</html>
+

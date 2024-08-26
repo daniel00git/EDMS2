@@ -1,0 +1,83 @@
+﻿@model IEnumerable<Metadata>
+
+@{
+    ViewData["Title"] = "Search Document";
+    int totalDocuments = Model != null ? Model.Count() : 0;
+    int totalUploads = 10; // Assuming you have a method to get this value, e.g., from the database
+}
+
+<div>
+    <!-- Search bar for Document Management -->
+    <h2>Search Document</h2>
+    @*@using (Html.BeginForm("SearchDocument", "Home", FormMethod.Get))
+    {
+        @Html.TextBox("searchTerm", null, new { placeholder = "Search..." })
+        <input type="submit" value="Search" />
+    }*@
+
+    @using (Html.BeginForm("SearchDocument", "Home", FormMethod.Get))
+    {
+        @Html.TextBox("documentName", null, new { placeholder = "Document Name" })
+        @*@Html.DropDownList("searchTerm", new SelectList(new[] { "PDF File", "DOCX", "PNG Image" }, "Select Document Type"))*@
+        @Html.TextBox("documentType", null, new { placeholder = "Document Type" })
+        <input type="submit" value="Search" />
+    }
+
+</div>
+
+<br /><br />
+
+<div>
+    <h2>Search Results</h2>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>No.</th>
+                <th>Document Name</th>
+                <th>Document Type</th>
+                <th>Document Format</th>
+                <th>Document Description</th>
+                <th>Comment</th>
+                <th>Status</th>
+                <th>DateTime Uploaded</th>
+                <th>Author</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                int counter = 1;
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@counter</td>
+
+                        <!-- Document attachment under "Document Name" column -->
+                        <td>
+                            @if (!string.IsNullOrEmpty(item.DocumentName))
+                            {
+                                <a href="@Url.Action("DownloadDocument", "Home", new { id = item.DocumentId })">@item.DocumentName</a>
+                            }
+                        </td>
+
+                        <td>@item.DocumentType</td>
+                        <td>@item.DocumentFormat</td>
+                        <td>@item.DocumentDescription</td>
+                           <td>@(string.IsNullOrEmpty(item.DocumentComment) ? "No comments available." : item.DocumentComment)</td>
+                        <td>@item.Status</td>
+                        <td>@item.UploadDate.ToString("yyyy-MM-dd / HH:mm:ss")</td>
+                        <td>@item.CreatedByEmail</td>
+                    </tr>
+                    counter++;
+                }
+            }
+            else
+            {
+                <td colspan="9">No search result(s)</td>
+            }
+        </tbody>
+    </table>
+</div>
+

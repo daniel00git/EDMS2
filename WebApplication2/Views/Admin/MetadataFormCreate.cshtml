@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+    <h2>Admin Text Input Form</h2>
+
+    <form id="adminForm">
+        <label for="textItem">Text Item (for Admin):</label><br>
+        <input type="text" id="textItem" name="textItem"><br>
+        <input type="button" value="Submit" onclick="addToList()">
+    </form>
+
+    <script>
+        let dropdownMenu = document.getElementById("dropdownMenu");
+
+        function addToList() {
+            let textItem = document.getElementById("textItem").value;
+            let option = document.createElement("option");
+            option.text = textItem;
+            dropdownMenu.add(option);
+        }
+    </script>
+</body>
+
+</html>

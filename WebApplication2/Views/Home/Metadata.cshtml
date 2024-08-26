@@ -1,0 +1,289 @@
+@*@model WebApplication2.Models.ViewModel.AddMetadata*@
+@model WebApplication2.Models.UserModel
+@{
+    ViewData["Title"] = "Metadata Form";
+}
+@{
+    var AddMetadata = Model.AddMetadata;
+    var LetterOfAppointment = Model.LetterOfAppointment;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Include Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Include jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Include Bootstrap JS -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Include FontAwesome for success icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+</head>
+<body>
+    <!-- The Form -->
+    <h1>Upload Document</h1>
+
+    <form id="metadataForm" method="post" enctype="multipart/form-data">
+        <div class="mt-3">
+            <label class="form-label">Document Name</label>
+            <input type="text" placeholder="Document name is autofilled" class="form-control" asp-for="AddMetadata.DocumentName" readonly/>
+        </div>
+
+        @*<div class="mt-3">
+            <label class="form-label">Document Type</label>
+            <input type="text" class="form-control" asp-for="DocumentType" />
+        </div>*@
+
+        <div class="mt-3">
+            @Html.Label("Choose an option:", "Division Name", new { @class = "form-label" })
+            <div>
+                @*@Html.DropDownListFor(m => m.SiteName, (SelectList)ViewBag.Options, "-- Select an option --", new { @class = "form-control", @id="documentType", @required="required", @oninput = "(function(e){e.setCustomValidity(''); return !e.validity.valid && e.setCustomValidity(' ')})(this)",
+                @oninvalid = "this.setCustomValidity('Please select site name in the list.')"})*@
+                @Html.DropDownListFor(m => m.AddMetadata.SiteName, (SelectList)ViewBag.Sites, "-- Select an option --", new { @class = "form-control", @id="siteName", @required="required", @oninput = "(function(e){e.setCustomValidity(''); return !e.validity.valid && e.setCustomValidity(' ')})(this)",
+                @oninvalid = "this.setCustomValidity('Please select site name in the list.')"})
+            </div>
+        </div>
+
+        
+
+        <div class="mt-3">
+            @Html.Label("Choose an option:", "Department Name", new { @class = "form-label" })
+            <div>
+                <select asp-for="AddMetadata.DepartmentName" name="departmentName" id="departmentName" class="form-control">
+                    <option value="">-- Select department --</option>
+                    <option value="Sales and Marketing">Sales and Marketing</option>
+                    <option value="Credit Admin & Control">Credit Admin & Control</option>
+                    <option value="Document Controller">Document Controller</option>
+                    <option value="HR Admin Department">HR Admin Department</option>
+                </select>
+                <span asp-validation-for="AddMetadata.DepartmentName" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="mt-3">
+            @Html.Label("Choose an option:", "Main Folder Name", new { @class = "form-label" })
+            <div>
+                <select asp-for="AddMetadata.MainFolderName" name="mainFolderName" id="mainFolderName" class="form-control">
+                    <option value="">-- Select main folder --</option>
+                    <option value="Sales and Marketing">Sales and Marketing</option>
+                    <option value="Credit Admin and Control">Credit Admin and Control</option>
+                </select>
+                <span asp-validation-for="AddMetadata.MainFolderName" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="mt-3">
+            @Html.Label("Choose an option:", "Sub-Folder Name", new { @class = "form-label" })
+            <div>
+                <select asp-for="AddMetadata.SubFolderName" name="subFolderName" id="subFolderName" class="form-control">
+                    <option value="">-- Select sub-folder --</option>
+                    <option value="Property Development">Property Development</option>
+                    <option value="Property Development 2">Property Development 2</option>
+                </select>
+                <span asp-validation-for="AddMetadata.SubFolderName" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="mt-3">
+            @Html.Label("Choose an option:", "Sub-Document Name", new { @class = "form-label", @id="SubDocumentName"})
+            <div>
+                <select asp-for="AddMetadata.SubDocumentName" name="subDocumentName" id="subDocumentName" class="form-control" onchange="subDocumentSelect()">
+                    <option value="">-- Select sub-document --</option>
+                    <option value="Letter of Appointment">Letter of Appointment</option>
+                    <option value="Renewal Letter">Renewal Letter</option>
+                    <option value="Purchaser File">Purchaser File</option>
+                    <option value="Letter of Offer">Letter of Offer</option>
+                </select>
+                <span asp-validation-for="AddMetadata.SubDocumentName" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div id="letter" style="display:none;">
+            <div class="mt-3">
+                <label class="form-label">Reference</label>
+                @Html.TextBoxFor(m => m.LetterOfAppointment.LoaReference, new { @class = "form-control", @id="documentType", @required="required", @oninput = "(function(e){e.setCustomValidity(''); return !e.validity.valid && e.setCustomValidity(' ')})(this)",
+                @oninvalid = "this.setCustomValidity('Please fill in the reference.')"})
+            </div>
+
+            <div class="mt-3">
+                <label class="form-label">Project Name</label>
+                @Html.TextBoxFor(m => m.LetterOfAppointment.LoaProjectName, new { @class = "form-control", @id="documentType", @required="required", @oninput = "(function(e){e.setCustomValidity(''); return !e.validity.valid && e.setCustomValidity(' ')})(this)",
+                @oninvalid = "this.setCustomValidity('Please fill in the project name.')"})
+
+            </div>
+            <div class="mt-3">
+                <label class="form-label">REA Name</label>
+                @Html.TextBoxFor(m => m.LetterOfAppointment.LoaProjectName, new { @class = "form-control", @id="documentType", @required="required", @oninput = "(function(e){e.setCustomValidity(''); return !e.validity.valid && e.setCustomValidity(' ')})(this)",
+                @oninvalid = "this.setCustomValidity('Please fill in the project name.')"})
+
+            </div>
+        </div>
+        
+
+        <div class="mt-3">
+            @Html.Label("Choose an option:", "Document Type", new { @class = "form-label" })
+             <div>
+                @Html.DropDownListFor(m => m.AddMetadata.DocumentType, (SelectList)ViewBag.Options, "-- Select an option --", new { @class = "form-control", @id="documentType", @required="required", @oninput = "(function(e){e.setCustomValidity(''); return !e.validity.valid && e.setCustomValidity(' ')})(this)",
+                @oninvalid = "this.setCustomValidity('Please select document type in the list.')"})
+                @*@Html.ValidationMessageFor(m => m.DocumentType, "", new {@class = "text-danger"})*@
+            </div>
+        </div>
+
+        <div class="mt-3">
+            <label class="form-label">Document Format</label>
+            <input type="text" id="DocumentFormat" class="form-control" asp-for="AddMetadata.DocumentFormat" placeholder="Document format is autofilled" readonly />
+        </div>
+
+        <div class="mt-3">
+           <label class="form-label">Description</label>
+            <textarea asp-for="AddMetadata.DocumentDescription" class="form-control" rows="4" placeholder="Enter document description" required oninput="(function(e){e.setCustomValidity(''); return !e.validity.valid && e.setCustomValidity(' ')})(this)"
+                      oninvalid="this.setCustomValidity('Please fill in the description.')"></textarea>
+        </div>
+
+        <div class="mt-3">
+            <label class="form-label">Document Attachment</label>
+            <input type="file" id="file" class="form-control" asp-for="AddMetadata.DocumentFile" onchange="updateFormat()" required oninput="(function(e){e.setCustomValidity(''); return !e.validity.valid && e.setCustomValidity(' ')})(this)"
+                   oninvalid="this.setCustomValidity('Please attach a document.')" />
+        </div>
+
+        <input type="hidden" id="OriginalExtension" name="OriginalExtension" />
+
+        <div class="mt-3">
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="reset" class="btn btn-primary">Reset Metadata</button>
+            <a href="@Url.Action("DocumentManagement")" class="btn btn-danger">Cancel</a>
+        </div>
+
+        <p>
+                @Html.ActionLink("Back to Document Management List", "DocumentManagement")
+        </p>
+        
+      @*  <div class="mt-3">
+            <a href="@Url.Action("Download", "HomeController", new { id = Model.Id })" class="btn btn-primary">Download</a>
+        </div>*@
+    </form>
+
+    <!-- Success message modal -->
+    <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="successModalLabel">Success</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body text-center">
+                    <i class="fas fa-check-circle fa-3x text-success"></i>
+                    <p>Metadata uploaded successfully!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+       /* function updateFormat() {
+            let fileInput = document.getElementById('file');
+            let filePath = fileInput.value;
+
+            // Get the file extension
+            let extension = filePath.substring(filePath.lastIndexOf('.')).toLowerCase();*/
+
+            /*function subDocumentSelect() {
+                var selectSDN = document.getElementById("subDocumentName");
+
+            }*/  //For display selection based on selected sub-document.
+
+        function updateFormat() {
+            let fileInput = document.getElementById('file');
+            let filePath = fileInput.value;
+            let fileName = fileInput.files[0].name;
+
+            // Get the file extension
+            let extension = filePath.substring(filePath.lastIndexOf('.')).toLowerCase();
+
+            // Save the original extension in a hidden input field
+            document.getElementById('OriginalExtension').value = extension;
+            document.getElementById('DocumentName').value = fileName;
+
+            // Mapping of file extensions to full names
+            let extensionToFullName = {
+                '.txt': 'Plain Text File',
+                '.doc': 'Microsoft Word Document',
+                '.docx': 'Microsoft Word Document',
+                '.pdf': 'PDF File',
+                '.rtf': 'Rich Text Format File',
+                '.jpg': 'JPEG Image',
+                '.jpeg': 'JPEG Image',
+                '.png': 'PNG Image',
+                '.gif': 'GIF Image',
+                '.bmp': 'Bitmap Image File',
+                '.svg': 'Scalable Vector Graphics File',
+                '.html': 'HTML File',
+                '.htm': 'HTML File',
+                '.css': 'Cascading Style Sheets File',
+                '.js': 'JavaScript File',
+                '.csv': 'Comma Separated Values File',
+                '.xml': 'XML File',
+                '.json': 'JavaScript Object Notation File',
+                '.sql': 'Structured Query Language Data File',
+                '.ppt': 'Microsoft PowerPoint Presentation',
+                '.pptx': 'Microsoft PowerPoint Presentation'
+             
+
+                // Add more mappings as needed
+            }
+
+            // Update the DocumentFormat input field with the full name
+            let formatInput = document.getElementById('DocumentFormat');
+            formatInput.value = extensionToFullName[extension] || 'Unknown Format';
+        }
+
+        $(document).ready(function () {
+
+            $('#subDocumentName').change(function() {
+                console.log('SubDocument name changed!');
+                var selectedValue = $(this).val();
+                if (selectedValue === 'Letter of Appointment') {
+                    $('#letter').show();
+                } else {
+                    $('#letter').hide();
+                }
+            })
+
+            $('#metadataForm').submit(function (event) {
+                event.preventDefault(); // Prevent the default form submission
+
+                var formData = new FormData(this);
+                // Include the original extension in the FormData object
+                formData.append('OriginalExtension', $('#OriginalExtension').val());
+
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("Metadata", "Home")', // Adjust the URL to your controller action
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        if (response.success) {
+                            // Show the success modal
+                            $('#successModal').modal('show');
+                            // Redirect after a short delay
+                            setTimeout(function () {
+                                window.location.href = '@Url.Action("DocumentManagement", "Home")'; // Adjust the URL to your document management page
+                            }, 1500); // Adjust the delay as needed
+                        } else {
+                            alert('An error occurred: ' + response.error);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        alert('An error occurred while uploading the metadata: ' + error);
+                    }
+                });
+            });
+
+        });
+    </script>
+</body>
+</html>

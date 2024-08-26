@@ -1,0 +1,38 @@
+﻿@model IEnumerable<Metadata>
+
+<!-- Ensure jQuery is loaded -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Ensure Bootstrap is loaded -->
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+
+
+<div class="table-responsive">
+    <h1 class="h3 mb-2 text-gray-800">FileData Table</h1>
+    <br />
+    <table class="table table-bordered" id="fileDataTable" width="100%" cellspacing="0">
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>DocFormat</th>
+                <th>DocumentContent</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model!= null && Model.Any())
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        @*<td>@counter</td>*@
+@*                        <td>@item.DocFormat</td>
+                        <td>@item.DocumentContent</td>
+                        <td>@item.Status</td>*@
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>

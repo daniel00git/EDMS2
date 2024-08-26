@@ -1,0 +1,53 @@
+﻿@*@model WebApplication2.Models.SiteLocation
+
+@{
+    ViewData["Title"] = "Site Location Details";
+}
+
+<h1>Site Location Details</h1>
+
+<div>
+    <h4>SiteLocation</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.SiteName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.SiteName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CreatedDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CreatedDate)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CreatedByEmail)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CreatedByEmail)
+        </dd>
+    </dl>
+</div>
+<div>
+    <h4>Departments</h4>
+    <table class="table">
+        <tr>
+            <th>Department Name</th>
+        </tr>
+        @foreach (var department in Model.Departments)
+        {
+            <tr>
+                <td>
+                    @department.DepartmentName
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.SiteId">Edit</a> |
+    <a asp-action="CreateSite">Back to List</a>
+</div>
+*@

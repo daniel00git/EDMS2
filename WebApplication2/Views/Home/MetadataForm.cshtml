@@ -1,7 +1,8 @@
-@model WebApplication2.Models.MetadataForm
+@* @model WebApplication2.Models.MetadataForm
 @{
     Layout = null;
 }
+
 
 <!DOCTYPE html>
 <html>
@@ -108,7 +109,8 @@
     </style>
 </head>
 <body>
-  @*   <div class="main-block">
+
+    <div class="main-block">
         <div class="left-part">
             <i class="fas fa-envelope"></i>
             <i class="fas fa-at"></i>
@@ -117,57 +119,19 @@
         <form method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="MetadataForm">
             <h1>Metadata Form List</h1>
             <div class="info">
-                <input class="fname" type="text" name="name" placeholder="Document Name">
-                <input type="text" name="name" placeholder="Document type">
-                <input type="text" name="name" placeholder="Document Format">
-
-            </div>
-            <p>Message</p>
-            <div>
-                <textarea rows="4"></textarea>
-            </div>
-            <h4 class="m-0 font-weight-bold text-primary">Document Upload</h4>
-            <div class="col-4">
-
-                <div class="mb-3">
-                    <input type="file" name="file" class="form-control" />
-                </div>
-
-                <div class="mb-3">
-                    <input type="submit" value="Upload Document" class="btn btn-primary" />
-                </div>
-
-                <span class="text-success">
-                    @ViewBag.Message
-                </span>
-                <button type="submit" href="/">Submit</button>
-
-            </div>
-        </form>
-    </div> *@
-
-
-
-
-
-
-
-    @* <div class="main-block">
-        <div class="left-part">
-            <i class="fas fa-envelope"></i>
-            <i class="fas fa-at"></i>
-            <i class="fas fa-mail-bulk"></i>
-        </div>
-        <form method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="MetadataForm">
-            <h1>Metadata Form List</h1>
-            <div class="info">
-                <input class="fname" type="text" asp-for="DocumentName" placeholder="Document Name" class="form-control" />
                 <span asp-validation-for="DocumentName" class="text-danger"></span>
 
                 <input type="text" asp-for="DocumentType" placeholder="Document Type" class="form-control" />
                 <span asp-validation-for="DocumentType" class="text-danger"></span>
+                <select asp-for="DocumentType" class="form-control">
+                    <option value="">Select Document Type</option>
+                    <!-- Add more options here -->
+                </select>
+                <span asp-validation-for="DocumentType" class="text-danger"></span>
 
-                <input type="text" asp-for="DocumentFormat" placeholder="Document Format" class="form-control" />
+
+
+                <input type="text" id="DocumentFormat" asp-for="DocumentFormat" placeholder="Document Format" class="form-control" readonly />
                 <span asp-validation-for="DocumentFormat" class="text-danger"></span>
             </div>
             <p>Message</p>
@@ -178,7 +142,7 @@
             <h4 class="m-0 font-weight-bold text-primary">Document Upload</h4>
             <div class="col-4">
                 <div class="mb-3">
-                    <input type="file" name="file" class="form-control" />
+                    <input type="file" id="file" name="file" class="form-control" onchange="updateFormat()" />
                 </div>
                 <div class="mb-3">
                     <input type="submit" value="Upload Document" class="btn btn-primary" />
@@ -186,51 +150,191 @@
                 <span class="text-success">@ViewBag.Message</span>
             </div>
         </form>
+       
+
+    </div>
+      
+
+
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script>        function updateFormat() {
+            let fileInput = document.getElementById('file');
+            let filePath = fileInput.value;
+
+            // Get the file extension
+            let extension = filePath.substring(filePath.lastIndexOf('.') + 1).toLowerCase();
+
+            // Update the DocumentFormat input field
+            let formatInput = document.getElementById('DocumentFormat');
+            formatInput.value = extension;
+        }
+    </script>
+
+ *@
+
+
+
+
+    @*   <div class="main-block">
+    <div class="left-part">
+    <i class="fas fa-envelope"></i>
+    <i class="fas fa-at"></i>
+    <i class="fas fa-mail-bulk"></i>
+    </div>
+    <form method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="MetadataForm">
+    <h1>Metadata Form List</h1>
+    <div class="info">
+    <input class="fname" type="text" name="name" placeholder="Document Name">
+    <input type="text" name="name" placeholder="Document type">
+    <input type="text" name="name" placeholder="Document Format">
+
+    </div>
+    <p>Message</p>
+    <div>
+    <textarea rows="4"></textarea>
+    </div>
+    <h4 class="m-0 font-weight-bold text-primary">Document Upload</h4>
+    <div class="col-4">
+
+    <div class="mb-3">
+    <input type="file" name="file" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+    <input type="submit" value="Upload Document" class="btn btn-primary" />
+    </div>
+
+    <span class="text-success">
+    @ViewBag.Message
+    </span>
+    <button type="submit" href="/">Submit</button>
+
+    </div>
+    </form>
     </div> *@
 
 
 
 
 
-    <div class="main-block">
+
+
+    @* <div class="main-block">
     <div class="left-part">
-        <i class="fas fa-envelope"></i>
-        <i class="fas fa-at"></i>
-        <i class="fas fa-mail-bulk"></i>
+    <i class="fas fa-envelope"></i>
+    <i class="fas fa-at"></i>
+    <i class="fas fa-mail-bulk"></i>
     </div>
     <form method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="MetadataForm">
-        <h1>Metadata Form </h1>
-        <div class="info">
-            <input class="fname" type="text" asp-for="DocumentName" placeholder="Document Name" class="form-control" />
-            <span asp-validation-for="DocumentName" class="text-danger"></span>
+    <h1>Metadata Form List</h1>
+    <div class="info">
+    <input class="fname" type="text" asp-for="DocumentName" placeholder="Document Name" class="form-control" />
+    <span asp-validation-for="DocumentName" class="text-danger"></span>
 
-            <input type="text" asp-for="DocumentType" placeholder="Document Type" class="form-control" />
-            <span asp-validation-for="DocumentType" class="text-danger"></span>
+    <input type="text" asp-for="DocumentType" placeholder="Document Type" class="form-control" />
+    <span asp-validation-for="DocumentType" class="text-danger"></span>
 
-            <input type="text" asp-for="DocumentFormat" placeholder="Document Format" class="form-control" />
-            <span asp-validation-for="DocumentFormat" class="text-danger"></span>
-        </div>
-        <p>Message</p>
-        <div>
-            <textarea rows="4" asp-for="Message" placeholder="Message" class="form-control"></textarea>
-            <span asp-validation-for="Message" class="text-danger"></span>
-        </div>
-        <h4 class="m-0 font-weight-bold text-primary">Document Upload</h4>
-        <div class="col-4">
-            <div class="mb-3">
-                <input type="file" name="file" class="form-control" />
-            </div>
-            <div class="mb-3">
-                <input type="submit" value="Upload Document" class="btn btn-primary btn-user btn-block" />
-            </div> 
-            
-           <span class="text-success">@ViewBag.Message</span>
-        </div>
+    <input type="text" asp-for="DocumentFormat" placeholder="Document Format" class="form-control" />
+    <span asp-validation-for="DocumentFormat" class="text-danger"></span>
+    </div>
+    <p>Message</p>
+    <div>
+    <textarea rows="4" asp-for="Message" placeholder="Message" class="form-control"></textarea>
+    <span asp-validation-for="Message" class="text-danger"></span>
+    </div>
+    <h4 class="m-0 font-weight-bold text-primary">Document Upload</h4>
+    <div class="col-4">
+    <div class="mb-3">
+    <input type="file" name="file" class="form-control" />
+    </div>
+    <div class="mb-3">
+    <input type="submit" value="Upload Document" class="btn btn-primary" />
+    </div>
+    <span class="text-success">@ViewBag.Message</span>
+    </div>
     </form>
-</div>
+    </div> *@
+
+
+
+
+
+    @*   <div class="main-block">
+    <div class="left-part">
+    <i class="fas fa-envelope"></i>
+    <i class="fas fa-at"></i>
+    <i class="fas fa-mail-bulk"></i>
+    </div>
+    <form method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="MetadataForm">
+    <h1>Metadata Form </h1>
+    <div class="info">
+    <input class="fname" type="text" asp-for="DocumentName" placeholder="Document Name" class="form-control" />
+    <span asp-validation-for="DocumentName" class="text-danger"></span>
+
+    <input type="text" asp-for="DocumentType" placeholder="Document Type" class="form-control" />
+    <span asp-validation-for="DocumentType" class="text-danger"></span>
+
+    <input type="text" asp-for="DocumentFormat" placeholder="Document Format" class="form-control" />
+    <span asp-validation-for="DocumentFormat" class="text-danger"></span>
+    </div>
+    <p>Message</p>
+    <div>
+    <textarea rows="4" asp-for="Message" placeholder="Message" class="form-control"></textarea>
+    <span asp-validation-for="Message" class="text-danger"></span>
+    </div>
+    <h4 class="m-0 font-weight-bold text-primary">Document Upload</h4>
+    <div class="col-4">
+    <div class="mb-3">
+    <input type="file" name="file" class="form-control" />
+    </div>
+    <div class="mb-3">
+    <input type="submit" value="Upload Document" class="btn btn-primary btn-user btn-block" />
+    </div>
+
+    <span class="text-success">@ViewBag.Message</span>
+    </div>
+    </form>
+    </div>
 
 
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    *@
 
-</body>
+    @*  <div class="main-block">
+    <div class="left-part">
+    <i class="fas fa-envelope"></i>
+    <i class="fas fa-at"></i>
+    <i class="fas fa-mail-bulk"></i>
+    </div>
+    <form method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="MetadataForm">
+    <h1>Metadata Form List</h1>
+    <div class="info">
+    <input class="fname" type="text" asp-for="DocumentName" placeholder="Document Name" class="form-control" />
+    <span asp-validation-for="DocumentName" class="text-danger"></span>
+
+    <input type="text" asp-for="DocumentType" placeholder="Document Type" class="form-control" />
+    <span asp-validation-for="DocumentType" class="text-danger"></span>
+
+    <input type="text" asp-for="DocumentFormat" placeholder="Document Format" class="form-control" />
+    <span asp-validation-for="DocumentFormat" class="text-danger"></span>
+    </div>
+    <p>Message</p>
+    <div>
+    <textarea rows="4" asp-for="Message" placeholder="Message" class="form-control"></textarea>
+    <span asp-validation-for="Message" class="text-danger"></span>
+    </div>
+    <h4 class="m-0 font-weight-bold text-primary">Document Upload</h4>
+    <div class="col-4">
+    <div class="mb-3">
+    <input type="file" name="file" class="form-control" />
+    </div>
+    <div class="mb-3">
+    <input type="submit" value="Upload Document" class="btn btn-primary" />
+    </div>
+    <span class="text-success">@ViewBag.Message</span>
+    </div>
+    </form>
+    </div> *@
+@* </body>
 </html>
+ *@

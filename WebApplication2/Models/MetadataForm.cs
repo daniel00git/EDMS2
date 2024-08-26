@@ -22,7 +22,7 @@ public class MetadataForm
   public string FilePath { get; set; }
 }
 */
-using System.ComponentModel.DataAnnotations;
+/*using System.ComponentModel.DataAnnotations;
 
 namespace WebApplication2.Models
 {
@@ -49,3 +49,4 @@ namespace WebApplication2.Models
     public byte[] FileContent { get; set; }
   }
 }
+*/

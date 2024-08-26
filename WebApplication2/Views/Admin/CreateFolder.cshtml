@@ -1,0 +1,120 @@
+﻿@model WebApplication2.Models.DocumentFolder
+@{
+    ViewData["Title"] = "Create Folder";
+}
+<h2>Create Folder</h2>
+
+<!-- First set -->
+@*<form asp-action="CreateFolder" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="FolderName" class="control-label"></label>
+        <input asp-for="FolderName" class="form-control" />
+        <span asp-validation-for="FolderName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Create" class="btn btn-primary" />
+    </div>
+</form>*@
+
+<!-- Second set -->
+@*<form asp-action="CreateFolder" method="post">
+    <label for="folderName">Folder Name:</label>
+    <input type="text" id="folderName" name="folderName" required />
+    <button type="submit">Create</button>
+</form>
+
+<p>@ViewBag.Message</p>*@
+
+<!-- Third set -->
+<form asp-action="CreateFolder" method="post">
+
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="form-group">
+        @*<label asp-for="FolderName" class="control-label"></label>
+        <input asp-for="FolderName" class="form-control" />
+        <span asp-validation-for="FolderName" class="text-danger"></span>*@
+
+        <label class="control-label col-md-2">Folder Name</label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.ParentFolder, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter folder name", @required = "required", @oninput = "(function(e){e.setCustomValidity(''); return !e.validity.valid && e.setCustomValidity(' ')})(this)",
+            @oninvalid = "this.setCustomValidity('Please fill in folder name.')" } })
+
+    </div>
+
+
+    <div class="form-group">
+        @*<label asp-for="ParentFolder" class="control-label"></label>
+        <select asp-for="ParentFolder" class="form-control">
+            <option value="">Select a parent folder</option>
+            <option value="">Main Folder</option>
+            <!-- populate options from database or file system -->
+        </select>
+        <span asp-validation-for="ParentFolder" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Create Folder" class="btn btn-primary" />*@
+
+        @Html.Label("Choose an option:", "Create Folder", new { @class = "form-label" })
+        <div>
+            @Html.DropDownListFor(m => m.ParentFolder, (SelectList)ViewBag.Options, "-- Select a parent folder --", new { @class = "form-control", @id="parentFolder", @required="required", @oninput = "(function(e){e.setCustomValidity(''); return !e.validity.valid && e.setCustomValidity(' ')})(this)",
+            @oninvalid = "this.setCustomValidity('Please select parent folder in the list.')"})
+            @*@Html.ValidationMessageFor(m => m.DocumentType, "", new {@class = "text-danger"})*@
+        </div>
+
+            <input type="submit" value="Create Folder" class="btn btn-primary" />
+
+    </div>
+
+</form>
+
+<div class="table-responsive">
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>No.</th>
+            <th>Folder Name</th>
+            <th>Parent Folder</th>
+            <th>Folder Path</th>
+            <th>Created By</th>
+            </tr>
+    </thead>
+    <tbody>
+        @{
+            int counter = 1;
+            if (ViewBag.FolderName != null)
+            {
+                foreach(var folder in ViewBag.FolderName)
+                {
+                    <tr>
+                    <td>@counter</td>
+                    <td>@folder.FolderName</td>
+                    <td>@folder.ParentFolder</td>
+                    <td>@folder.FolderPath</td>
+                <td>
+                        @(folder.CreatedByEmail != null ? folder.CreatedByEmail : "No email provided")
+                </td>
+                </tr>
+                counter++;
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="5">No options available</td>
+                </tr>
+            }
+        }
+    </tbody>
+     
+</table>
+</div>
+
+
+    @*function => try (promise)
+     {
+         e.exception = disqualify;
+
+     }*@
+     

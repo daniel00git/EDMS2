@@ -1,0 +1,29 @@
+﻿@model IEnumerable<WebApplication2.Models.Metadata>
+@inject ProtocolHandlerRegistrationService protocolHandlerRegistrationService
+
+@{
+    protocolHandlerRegistrationService.RegisterProtocolHandler();
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Open Document</title>
+</head>
+<body>
+    <h1>Open Document</h1>
+    <p>Click the link below to open the document:</p>
+    @*<a href="@Url.Action("CreateShortcutAction", "Home", new { documentId = Model })">Open My Document</a>*@
+
+    @foreach (var metadata in Model)
+    {
+        @*<a href="@Url.Action("GetDocument", "Home", new { documentId = Metadata.DocumentId })" target="_blank">Open Document (@Metadata.DocumentId)</a>*@
+        @*<a href="@Url.Action("GetDocument", "Home", new { documentId = Model.FirstOrDefault()?.DocumentId })" target="_blank">Open Document</a>*@
+
+
+        @*<a asp-controller="Home" asp-action="OpenDocumentDb" asp-route-documentId="38be7406-d330-4321-e5a2-08dc99af0f1f">Open Document in Microsoft Word</a>*@
+
+        <a href="@Url.Action("OpenDocumenDb", "Home", new { documentId = Model.FirstOrDefault()?.DocumentId })" target="_blank">Open Document in Microsoft Word</a>
+    }
+</body>
+</html>

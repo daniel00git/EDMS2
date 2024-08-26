@@ -1,0 +1,65 @@
+﻿@model WebApplication2.Models.DocumentTypeOption
+
+@{
+    ViewData["Title"] = "Add Document Type";
+    //Layout = "AdminLayout";
+}
+
+<!-- Ensure jQuery is loaded -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Ensure Bootstrap is loaded -->
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<div class="card shadow mb-4">
+    <div class="card-body">
+        <div class="table-responsive">
+            <h1 class="h3 mb-2 text-gray-800">Document Type Table</h1>
+            <br />
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>Document Type</th>
+                        <th>Created DateTime</th>
+                        <th>Created By</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        int counter = 1;
+                        if (ViewBag.DocumentTypeOption != null)
+                        {
+                        
+                            foreach (var doctype in ViewBag.DocumentTypeOption)
+                            {
+                                <tr>
+                                    <td>@counter</td>
+                                    @*   <td>@item.DocType</td>
+                                    <td>@item.CreatedDateTime</td>
+                                    <td>@item.CreatedBy</td>*@
+                                    <td>@doctype.DocumentTypeOptionValue</td>
+                                    <td>@doctype.CreatedDate.ToString("yyyy-MM-dd / HH:mm:ss")</td>
+                                    <td>
+                                        @(doctype.CreatedByEmail != null ? doctype.CreatedByEmail : "No email provided")
+                                    </td>
+                                </tr>
+                                counter++;
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="4">No options available</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+</a>

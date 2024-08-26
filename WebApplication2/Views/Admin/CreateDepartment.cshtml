@@ -1,0 +1,264 @@
+﻿@*View for Admin create drop-down options for department*@
+
+@model WebApplication2.Models.Department
+@{
+    ViewData["Title"] = "Add Department";
+    //Layout = "AdminLayout";
+}
+
+<!DOCTYPE html>
+<html>
+<body>
+
+    <!-- Begin Page Content -->
+    <div class="row">
+        <!-- Total Documents Uploaded Card -->
+        <div class="col-xl-3 col-md-6">
+            <div class="card bg-primary text-white mb-4">
+                <div class="card-body">
+                    <h3 id="totalUploads">@* @totalUploads *@</h3>
+                    <p>Uploads</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Existing Documents Card -->
+        <div class="col-xl-3 col-md-6">
+            <div class="card bg-warning text-white mb-4">
+                <div class="card-body">
+                    @*<h3 id="totalDocuments"> @totalDocuments </h3>*@
+                    <p>Documents</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Total Size Card (Placeholder, calculate and pass this value if needed) -->
+        <div class="col-xl-3 col-md-6">
+            <div class="card bg-danger text-white mb-4">
+                <div class="card-body">
+                    <p>Size</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- User Card -->
+        <div class="col-xl-3 col-md-6">
+            <div class="card bg-success text-white mb-4">
+                <div class="card-body">
+                    <p>User</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- </body> -->
+
+    <div class="card shadow mb-4 ">
+        <div class="card-body">
+            @*<div class="table-responsive">*@
+            <h1 class="h3 mb-2 text-gray-800">Add New Department</h1>
+
+
+            
+
+            <!-- Create Department -->
+            @*<form id="createDepartment" method="post" enctype="multipart/form-data">*@
+            <form id="createDepartment" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label class="control-label col-md-2">Department Name Option</label>
+
+                    <!-- Choose site name -->
+                    <div>
+                        @Html.Label("Choose an option", "Project Site:", new { @class = "form-label" })
+                        @Html.DropDownListFor(m => m.DivisionId, (SelectList)ViewBag.DivisionName, "-- Select an option --", new { @class = "form-control", @id="siteName", @required="required", @oninput = "(function(e){e.setCustomValidity(''); return !e.validity.valid && e.setCustomValidity(' ')})(this)",
+                        @oninvalid = "this.setCustomValidity('Please select site name in the list.')"})
+                    </div>
+
+                    <div class="col-md-10">
+                        @Html.Label("Choose an option", "Project Site Department:", new { @class = "form-label" })
+                        @Html.EditorFor(m => m.DepartmentName, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter department name", @required = "required", @oninput = "(function(e){e.setCustomValidity(''); return !e.validity.valid && e.setCustomValidity(' ')})(this)",
+                        @oninvalid = "this.setCustomValidity('Please fill in department name.')" } })
+                    </div>
+
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <button type="submit" class="btn btn-primary">Add Option</button>
+                        <button type="reset" class="btn btn-primary">Reset Option</button>
+                    </div>
+                </div>
+            </form>
+
+
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <h3 style="font-weight: bold">Department Options List</h2>
+                    <thead>
+                    <th>No.</th>
+                    <th>Department Name</th>
+                    <th>Site Name</th>
+                    <th>Created Date</th>
+                    <th>Created By</th>
+                    <th>Action</th>
+                    </thead>
+
+                    <tbody>
+                            @{
+                                int counter = 1;
+                                if (ViewBag.DepartmentName != null)
+                                {
+                                    foreach (var department in ViewBag.DepartmentName)
+                                    {
+                                    <tr>
+                                        <td>@counter</td>
+                                        <td>@department.DepartmentName</td>
+                                        <td>@department.SiteName</td>
+                                        <td>@department.CreatedDate.ToString("yyyy-MM-dd / HH:mm:ss")</td>
+                                        
+                                        <td>
+                                                @(department.CreatedByEmail != null ? department.CreatedByEmail : "No email provided")
+                                        </td>
+                                        <td>
+
+                                            <a asp-controller="Admin" asp-action="EditDepartment" asp-route-id="@department.DepartmentId" class="btn btn-primary">
+                                                Edit Department
+                                            </a>
+
+                                            <form class="delete-form" asp-action="DeleteDepartment" method="post" style="display:inline;">
+                                                <input type="hidden" name="id" value="@department.DepartmentId" />
+                                                <button type="submit" class="btn btn-danger">Delete</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                        counter++;
+                                    }
+                                }
+                                else
+                                {
+                                <tr>
+                                    <td colspan="6">No options available</td>
+                                </tr>
+                                }
+                            }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- </div> -->
+
+</body>
+
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+</a>
+
+
+<!-- Success message modal -->
+<div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="dialog" arial-modal="true">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="successModalLabel">Success</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <!--<span aria-hidden="true">&times;</span>-->
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                <i class="fas fa-check-circle fa-3x text-success"></i>
+                <p>Department deleted successfully!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Include Bootstrap CSS -->
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Include jQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!-- Include Bootstrap JS -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<!-- Include FontAwesome for success icon -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+
+
+@*<script>
+    function updateFormat() {
+        let departmentNameInput = document.getElementById('DepartmentName');
+    }
+
+    $(document).ready(function () {
+        $('#createDepartment').submit(function (event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            // var formData = new FormData(this);
+            var formData = $(this).serialize();
+
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("CreateDepartment", "Admin")', // Adjust the URL to your controller action
+                data: formData,
+                //contentType: false,
+                //processData: false,
+                success: function (response) {
+                    if (response.success) {
+                        // Show the success modal
+                        $('#successModal').modal('show');
+                        // Redirect after a short delay
+                        setTimeout(function () {
+                            window.location.href = '@Url.Action("CreateDepartment", "Admin")'; // Adjust the URL to your create department page
+                        }, 1500); // Adjust the delay as needed
+                    } else {
+                        alert('An error occurred: ' + response.error);
+                        }
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert('An error occurred while adding department: ' + error + '. Status: ' + status);
+                }
+            });
+        });
+    });
+
+
+
+</script>*@
+
+<script>
+    $(document).ready(function () {
+        $('.delete-form').on('submit', function (event) {
+            event.preventDefault();
+
+            if (confirm('Are you sure you want to delete this department option?')) {
+                var form = $(this);
+                var documentRow = form.closest('tr');
+                $.ajax({
+                    type: form.attr('method'),
+                    url: form.attr('action'),
+                    data: form.serialize(),
+                    success: function (response) {
+                        if (response.success) {
+                            $('#successModal').modal('show');
+                            $('#successMessage').text(response.message);
+                            documentRow.remove();
+                            var totalDocuments = parseInt($('#totalDocuments').text());
+                            $('#totalDocuments').text(totalDocuments - 1);
+                        } else {
+                            alert('An error occured: ' + response.error);
+                        }
+                    },
+                    error: function () {
+                        alert('An error occurred while deleting the department option.');
+                    }
+                });
+            }
+        });
+
+    });
+</script>
+
+
+</html>
+
